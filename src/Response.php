@@ -135,14 +135,15 @@ class Response {
 	/**
 	 * 响应内容
 	 * 终止进程并发送全部响应头, 抛弃所有其他缓冲区的内容
+	 * @param int $status 进程结束信号
 	 * @return void
 	 */
-	public function sendExit(): void {
+	public function sendExit(int $status = 0): void {
 		$this->obRestore(function() {
 			$this->header()->send();
 			$this->body()->send();
 		}, 0, false);
-		exit;
+		exit($status);
 	}
 
 	/**
